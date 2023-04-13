@@ -13,11 +13,19 @@ public class Bumblebee implements Contract {
     private int flower_size = 10;
     private ArrayList<String> myFlowers;
 
+    /**
+     * creates an instance of bumblebee
+     * @param name name of the bee
+     */
     public Bumblebee(String name){
         this.name = name;
         this.myFlowers = new ArrayList<String>();
     }
 
+    /**
+     * allows user to choose what method to call from the console
+     * @return t/f based whether or not the user called "quit"
+     */
     public boolean play(){
         System.out.println("\n+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
         System.out.println("\nWhat would you like to do?");
@@ -81,7 +89,10 @@ public class Bumblebee implements Contract {
         else{
             throw new RuntimeException("You didn't choose a valid option :0");}
         }
-
+    
+    /**
+     * prints intructions on how each function works
+     */
     public void help(){
         System.out.println("Fly:");
         System.out.println("\t+Choose the coords of where you want to go\n\t+Collect 2 flowers\n\t+possibility of loosing 1-4 flowers or flight power\n\t+loose 2 flight power");
@@ -103,6 +114,9 @@ public class Bumblebee implements Contract {
         System.out.println("\tDisplays name, size, flight power, flight cap, bag size, number of flowers");
     }
     
+    /**
+     * prints the contents of the bag
+     */
     public void openBag(){
         System.out.println("Opening bag...");
         myFlowers.sort(Comparator.naturalOrder());
@@ -115,6 +129,10 @@ public class Bumblebee implements Contract {
         }
         System.out.println("");
     }
+    /**
+     * test to see if the user has the required number of flowers
+     * @return whether or not they pass
+     */
     private String upgrade(){
         for(int i=0; i<20; i++){
             int count = 0;
@@ -124,13 +142,18 @@ public class Bumblebee implements Contract {
                 if(count == this.size+1){
                     return allFlowers[i];}}}
         return "None";}
-
+    
+    /**
+     * selects a random flower from predetermined list
+     * @return the flower
+     */
     private String randFlower(){
         Integer temp = index.nextInt(20);
         return allFlowers[temp];}
 
     /**
-     * allows bumblebee to pick up flowers
+     * allows user to add a flower to bag
+     * @param String the name of the flower
      */
     public void grab(String item) {
         if(myFlowers.size() < flower_size){
@@ -142,7 +165,9 @@ public class Bumblebee implements Contract {
     }
 
     /**
-     * allows bumblebee to drop flowers
+     * allows user to not add to inventory
+     * @param String the name of flower
+     * @return name of the flower
      */
     public String drop(String item) {
         System.out.println("Bumblebee "+ this.name + " has dropped: "+item+"\n");
@@ -150,7 +175,8 @@ public class Bumblebee implements Contract {
     }
 
     /**
-     * allows bumblebee to see if its a target flower
+     * allows bumblebee to what flower they found and then grab/drop
+     * @param String the name of flower
      */
     public void examine(String item) {
         System.out.println("\nyou've found a " +item+". What would you like to do?\n+Grab \n+Drop");
@@ -172,7 +198,8 @@ public class Bumblebee implements Contract {
 
 
     /**
-     * activates grow method when all flowers are collected
+     * removes a flower from inventory and adds 3 to flight_power
+     * @param String flower name
      */
     public void use(String item) {
         System.out.println("Munching on a yummy flower...");
@@ -190,6 +217,8 @@ public class Bumblebee implements Contract {
 
     /**
      * walks to a place to get one flower
+     * @param String direction they are walking in
+     * @return boolean the action has been completed
      */
     public boolean walk(String direction) {
         if(flight_power >= 2){
@@ -204,6 +233,8 @@ public class Bumblebee implements Contract {
 
     /**
      * flies to a place to get two flowers
+     * @param int x and y coords
+     * @return action has been completed
      */
     public boolean fly(int x, int y) {
         if(flight_power >= 2){
@@ -226,7 +257,8 @@ public class Bumblebee implements Contract {
 
 
     /**
-     * randomly occurs with flying, makes bumblebee drop 4 flowers
+     * makes bumblebee drop up to 4 flowers
+     * @return number of flowers dropped
      */
     public Number shrink() {
         System.out.println("You bumped into a tree...");
@@ -250,6 +282,7 @@ public class Bumblebee implements Contract {
 
     /**
      * when randomly selected flowers have been collected, bumblebee will grow in size and upgrade flight power
+     * @return new size
      */
     public Number grow() {
         System.out.println("Growing...");
@@ -274,7 +307,7 @@ public class Bumblebee implements Contract {
     }
 
     /**
-     * reset flight power
+     * reset flight power to max
      */
     public void rest() {
         System.out.println("Sleeping...please wait...");
@@ -291,14 +324,17 @@ public class Bumblebee implements Contract {
     }
 
     /**
-     * reverses drop or grab
+     *empties bag
      */
     public void undo() {
         System.out.println("Emptying bag...");
         myFlowers.clear();
         this.print_stats();
     }
-
+    
+    /**
+     * prints out bee stats
+     */
     public void print_stats(){
         System.out.println("\tName: " + this.name);
         System.out.println("\tFlight cap: "+this.flight_cap);
